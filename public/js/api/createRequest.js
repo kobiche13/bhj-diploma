@@ -31,7 +31,7 @@ const createRequest = (options = {}) => {
 }
 
 createRequest({
-  url: 'user', // адрес
+  url: '/user', // адрес
   data: { // произвольные данные, могут отсутствовать
     email: 'ivan@poselok.ru',
     password: 'odinodin'
