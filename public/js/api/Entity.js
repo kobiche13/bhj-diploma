@@ -3,16 +3,14 @@
  * Имеет свойство URL, равно пустой строке.
  * */
 class Entity {
-  constructor(url){
-    this.url
-  }
+  static url = '';
   /**
    * Запрашивает с сервера список данных.
    * Это могут быть счета или доходы/расходы
    * (в зависимости от того, что наследуется от Entity)
    * */
   static list(data, callback){
-    createRequest();    
+    createRequest(url, data);
   }
 
   /**

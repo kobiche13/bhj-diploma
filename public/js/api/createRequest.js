@@ -4,19 +4,34 @@
  * */
 const createRequest = (options = {}) => {
   let url = options.url;
-  let formData = new FormData();
   let method = options.method;
-  for (let key in options.data) {
-    formData.append(key, options.data[key]);
+  let formData;
+  if (options.data) {
+    if (options.method === 'GET') {
+        url += url.indexOf('?') >= 0 ? '&' : '?';
+        for (let key in options.data) {
+            url += key + '=' + encodeURI(options.data[key])+ '&';
+        }
+        url = url.slice(0, -1);
+    } else {
+         formData = new FormData();  
+        for (let key in options.data) {
+          formData.append(key, options.data[key]);
+        }
+    }
   }  
   const xhr = new XMLHttpRequest();
   xhr.responseType = 'json';
   try {    
     xhr.open(method, url);      
-    xhr.send(formData); 
+    if (options.method === 'GET') {  
+      xhr.send(); 
+    } else if (options.method === 'POST'){
+      xhr.send(formData)
+    }
     xhr.addEventListener('load', function() {
       if (this.status == 200 || this.status == 201) {
-        options.callback(response);                
+        options.callback(xhr.response);                
       }               
     })
   }
@@ -45,4 +60,4 @@ createRequest({
       console.log( 'Ошибка, если есть', err );
     }*/
   }
-});
+})
