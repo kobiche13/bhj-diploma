@@ -4,6 +4,13 @@
  * */
 const createRequest = (options = {}) => {
   let url = options.url;
+  options.callback = (err, response) => {
+    if (err === null){    
+      console.log( 'Данные, если нет ошибки', response );
+    } else {
+      console.log( 'Ошибка, если есть', err );
+    }
+  }
   let method = options.method;
   let formData;
   if (options.data) {
@@ -26,7 +33,7 @@ const createRequest = (options = {}) => {
     xhr.open(method, url);      
     if (options.method === 'GET') {  
       xhr.send(); 
-    } else if (options.method === 'POST'){
+    } else{
       xhr.send(formData)
     }
     xhr.addEventListener('load', function() {
@@ -46,18 +53,18 @@ createRequest({
     email: 'ivan@poselok.ru',
     password: 'odinodin'
   },
-  method: 'POST',
-  callback: (err, response) => {
+  method: 'GET',
+  /*callback: (err, response) => {
     if (err === null){    
       console.log( 'Данные, если нет ошибки', response );
     } else {
       console.log( 'Ошибка, если есть', err );
     }
-    /*if (response !== null){    
+    if (response !== null){    
       err === null;
       console.log( 'Данные, если нет ошибки', response );
     } else {
       console.log( 'Ошибка, если есть', err );
-    }*/
-  }
+    }
+  }*/
 })
